@@ -90,7 +90,7 @@ Python 3 version.
 %endif
 
 %check
-#n osetests-%{python2_version} -v
+nosetests-%{python2_version} -v
 %if 0%{?with_python3}
 nosetests-%{python3_version} -v
 %endif
