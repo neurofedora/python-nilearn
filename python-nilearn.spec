@@ -2,12 +2,9 @@
 %global commit 1f14723938e892801a9736481b588982d298ba48
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
-# https://github.com/nilearn/nilearn/issues/815
-%global with_python3 0
-
 Name:           python-%{modname}
 Version:        0.1.5
-Release:        0.dev.0git%{shortcommit}%{?dist}
+Release:        0.dev.1git%{shortcommit}%{?dist}
 Summary:        Python module for fast and easy statistical learning on NeuroImaging data
 
 License:        BSD
@@ -48,7 +45,6 @@ connectivity analysis.
 
 Python 2 version.
 
-%if 0%{?with_python3}
 %package -n python3-%{modname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{modname}}
@@ -72,41 +68,38 @@ applications such as predictive modelling, classification, decoding, or
 connectivity analysis.
 
 Python 3 version.
-%endif
 
 %prep
 %autosetup -n %{modname}-%{commit}
 
 %build
+export LC_ALL="en_US.UTF-8"
 %py2_build
-%if 0%{?with_python3}
 %py3_build
-%endif
 
 %install
+export LC_ALL="en_US.UTF-8"
 %py2_install
-%if 0%{?with_python3}
 %py3_install
-%endif
 
 %check
+export LC_ALL="en_US.UTF-8"
 nosetests-%{python2_version} -v
-%if 0%{?with_python3}
 nosetests-%{python3_version} -v
-%endif
 
 %files -n python2-%{modname}
 %license LICENSE
 %doc README.rst examples
 %{python2_sitelib}/%{modname}*
 
-%if 0%{?with_python3}
 %files -n python3-%{modname}
 %license LICENSE
 %doc README.rst examples
 %{python3_sitelib}/%{modname}*
-%endif
 
 %changelog
+* Tue Nov 03 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.1.5-0.dev.1git1f14723
+- Enable python3 support
+
 * Mon Nov 02 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.1.5-0.dev.0git1f14723
 - Initial package
