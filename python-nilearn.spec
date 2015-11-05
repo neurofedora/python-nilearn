@@ -1,10 +1,10 @@
 %global modname nilearn
-%global commit 1f14723938e892801a9736481b588982d298ba48
+%global commit 78f1cb0cf6c929a540cc5f90e5ea052caa47383a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           python-%{modname}
 Version:        0.1.5
-Release:        0.dev.1git%{shortcommit}%{?dist}
+Release:        0.dev.2git%{shortcommit}%{?dist}
 Summary:        Python module for fast and easy statistical learning on NeuroImaging data
 
 License:        BSD
@@ -98,6 +98,9 @@ nosetests-%{python3_version} -v
 %{python3_sitelib}/%{modname}*
 
 %changelog
+* Thu Nov 05 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.1.5-0.dev.2git78f1cb0
+- 78f1cb0
+
 * Tue Nov 03 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.1.5-0.dev.1git1f14723
 - Enable python3 support
 
