@@ -1,15 +1,13 @@
 %global modname nilearn
-%global commit 78f1cb0cf6c929a540cc5f90e5ea052caa47383a
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           python-%{modname}
-Version:        0.1.5
-Release:        0.dev.2git%{shortcommit}%{?dist}
+Version:        0.2.1
+Release:        1%{?dist}
 Summary:        Python module for fast and easy statistical learning on NeuroImaging data
 
 License:        BSD
 URL:            http://nilearn.github.io/
-Source0:        https://github.com/nilearn/nilearn/archive/%{commit}/%{modname}-%{shortcommit}.tar.gz
+Source0:        https://github.com/nilearn/nilearn/archive/%{version}/%{modname}-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -25,12 +23,21 @@ connectivity analysis.
 Summary:        %{summary}
 %{?python_provide:%python_provide python2-%{modname}}
 BuildRequires:  python2-devel python-setuptools
-BuildRequires:  numpy scipy python-scikit-learn python2-nibabel
+%if 0%{?fedora} > 23
+BuildRequires:  python2-numpy python2-scipy
+Requires:       python2-numpy python2-scipy
+%else
+BuildRequires:  numpy scipy
+Requires:       numpy scipy
+%endif
+BuildRequires:  python-scikit-learn python2-joblib
+BuildRequires:  python2-nibabel
 BuildRequires:  python-sphinx
 # Test deps
-BuildRequires:  python-nose
+BuildRequires:  python2-nose
 BuildRequires:  python-matplotlib
-Requires:       numpy scipy python-scikit-learn python2-nibabel
+Requires:       python-scikit-learn python2-joblib
+Requires:       python2-nibabel
 # For plotting functionality and examples
 Recommends:     python-matplotlib
 Suggests:       ipython
@@ -49,12 +56,16 @@ Python 2 version.
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{modname}}
 BuildRequires:  python3-devel python3-setuptools
-BuildRequires:  python3-numpy python3-scipy python3-scikit-learn python3-nibabel
+BuildRequires:  python3-numpy python3-scipy
+BuildRequires:  python3-scikit-learn python3-joblib
+BuildRequires:  python3-nibabel
 BuildRequires:  python3-sphinx
 # Test deps
 BuildRequires:  python3-nose
 BuildRequires:  python3-matplotlib
-Requires:       python3-numpy python3-scipy python3-scikit-learn python3-nibabel
+Requires:       python3-numpy python3-scipy
+Requires:       python3-scikit-learn python3-joblib
+Requires:       python3-nibabel
 # For plotting functionality and examples
 Recommends:     python3-matplotlib
 Suggests:       python3-ipython
@@ -70,7 +81,7 @@ connectivity analysis.
 Python 3 version.
 
 %prep
-%autosetup -n %{modname}-%{commit}
+%autosetup -n %{modname}-%{version}
 
 %build
 export LC_ALL="en_US.UTF-8"
@@ -89,15 +100,18 @@ nosetests-%{python3_version} -v
 
 %files -n python2-%{modname}
 %license LICENSE
-%doc README.rst examples
+%doc README.rst AUTHORS.rst examples
 %{python2_sitelib}/%{modname}*
 
 %files -n python3-%{modname}
 %license LICENSE
-%doc README.rst examples
+%doc README.rst AUTHORS.rst examples
 %{python3_sitelib}/%{modname}*
 
 %changelog
+* Tue Dec 15 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.2.1-1
+- Update to 0.2.1
+
 * Thu Nov 05 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 0.1.5-0.dev.2git78f1cb0
 - 78f1cb0
 
